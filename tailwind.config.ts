@@ -1,4 +1,3 @@
-/* Tailwind config for the frontend react app. This is where the app theme should be defined: https://v2.tailwindcss.com/docs/configuration. */
 import type { Config } from 'tailwindcss'
 import animatePlugin from 'tailwindcss-animate'
 import typographyPlugin from '@tailwindcss/typography'
@@ -87,16 +86,24 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      transitionProperty: {
-        width: 'width',
-        height: 'height',
+      keyframes: {
+        'scan-pulse': {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(16, 185, 129, 0)' },
+          '50%': { boxShadow: '0 0 0 10px rgba(16, 185, 129, 0.3)' },
+        },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
       },
-      boxShadow: {
-        subtle: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-        elevation: '0 4px 20px rgba(0, 0, 0, 0.05)',
-      },
-      transitionTimingFunction: {
-        apple: 'cubic-bezier(0.42, 0, 0.58, 1)',
+      animation: {
+        'scan-pulse': 'scan-pulse 2s infinite',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
