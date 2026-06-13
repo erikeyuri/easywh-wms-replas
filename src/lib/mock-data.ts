@@ -1,52 +1,227 @@
-export type Branch = { id: string; name: string }
-export type Warehouse = { id: string; branchId: string; name: string }
-export type Product = { id: string; sku: string; name: string; uom: string }
-export type Address = {
-  id: string
-  code: string
-  zone: string
-  status: 'free' | 'occupied' | 'locked'
-}
-export type Balance = {
-  id: string
-  addressId: string
-  productId: string
-  qty: number
-  lot?: string
-}
-
-export const MOCK_BRANCHES: Branch[] = [
-  { id: 'b1', name: 'Matriz - SP' },
-  { id: 'b2', name: 'Filial - RJ' },
+export const mockCompanies = [
+  {
+    id: '1',
+    code: 'EMP01',
+    branch: 'FL01',
+    name: 'Logistics Matrix SP',
+    status: 'Ativo',
+    erp: 'ERP-101',
+  },
+  {
+    id: '2',
+    code: 'EMP01',
+    branch: 'FL02',
+    name: 'Logistics Matrix RJ',
+    status: 'Ativo',
+    erp: 'ERP-102',
+  },
+  {
+    id: '3',
+    code: 'EMP02',
+    branch: 'FL01',
+    name: 'Global Dist',
+    status: 'Inativo',
+    erp: 'ERP-201',
+  },
 ]
 
-export const MOCK_WAREHOUSES: Warehouse[] = [
-  { id: 'w1', branchId: 'b1', name: 'CD Principal' },
-  { id: 'w2', branchId: 'b1', name: 'CD Secundário' },
-  { id: 'w3', branchId: 'b2', name: 'Armazém Litoral' },
+export const mockWarehouses = [
+  {
+    id: '1',
+    companyId: '1',
+    code: 'ARM-SP-01',
+    description: 'Armazém Principal SP',
+    type: 'Real',
+    status: 'Ativo',
+    erp: 'WH-01',
+  },
+  {
+    id: '2',
+    companyId: '1',
+    code: 'ARM-SP-02',
+    description: 'Armazém Secundário SP',
+    type: 'Virtual',
+    status: 'Ativo',
+    erp: 'WH-02',
+  },
+  {
+    id: '3',
+    companyId: '2',
+    code: 'ARM-RJ-01',
+    description: 'Armazém Central RJ',
+    type: 'Real',
+    status: 'Ativo',
+    erp: 'WH-03',
+  },
 ]
 
-export const MOCK_PRODUCTS: Product[] = [
-  { id: 'p1', sku: 'SKU-001', name: 'Parafuso Sextavado M8', uom: 'CX' },
-  { id: 'p2', sku: 'SKU-002', name: 'Porca M8 Galvanizada', uom: 'PC' },
-  { id: 'p3', sku: 'SKU-003', name: 'Fita Isolante 3M', uom: 'UN' },
-  { id: 'p4', sku: 'SKU-004', name: 'Luva de Proteção CA', uom: 'PR' },
+export const mockZones = [
+  {
+    id: '1',
+    warehouseId: '1',
+    code: 'Z-01',
+    description: 'Zona de Picking A',
+    type: 'Dinâmica',
+    rule: 'FEFO',
+    sequence: 10,
+  },
+  {
+    id: '2',
+    warehouseId: '1',
+    code: 'Z-02',
+    description: 'Pulmão Congelados',
+    type: 'Blocada',
+    rule: 'FIFO',
+    sequence: 20,
+  },
+  {
+    id: '3',
+    warehouseId: '3',
+    code: 'Z-10',
+    description: 'Recepção Doca',
+    type: 'Trânsito',
+    rule: 'LIFO',
+    sequence: 1,
+  },
 ]
 
-export const MOCK_ADDRESSES: Address[] = [
-  { id: 'a1', code: 'A-01-01', zone: 'Picking', status: 'occupied' },
-  { id: 'a2', code: 'A-01-02', zone: 'Picking', status: 'free' },
-  { id: 'a3', code: 'B-10-05', zone: 'Reserva', status: 'occupied' },
-  { id: 'a4', code: 'B-10-06', zone: 'Reserva', status: 'locked' },
-  { id: 'a5', code: 'DOCA-01', zone: 'Recebimento', status: 'occupied' },
+export const mockAddresses = [
+  {
+    id: '1',
+    zoneId: '1',
+    code: '01-01-A-01',
+    type: 'Picking',
+    maxVolume: 1.5,
+    maxWeight: 1000,
+    maxPallets: 1,
+    status: 'Liberado',
+    sequence: 1,
+    abc: 'A',
+    equipment: 'Transpaleteira',
+  },
+  {
+    id: '2',
+    zoneId: '1',
+    code: '01-01-A-02',
+    type: 'Picking',
+    maxVolume: 1.5,
+    maxWeight: 1000,
+    maxPallets: 1,
+    status: 'Liberado',
+    sequence: 2,
+    abc: 'A',
+    equipment: 'Transpaleteira',
+  },
+  {
+    id: '3',
+    zoneId: '2',
+    code: '99-01-Z-99',
+    type: 'Pulmão',
+    maxVolume: 3.0,
+    maxWeight: 2000,
+    maxPallets: 2,
+    status: 'Bloqueado Total',
+    sequence: 999,
+    abc: 'C',
+    equipment: 'Empilhadeira Retrátil',
+  },
+  {
+    id: '4',
+    zoneId: '1',
+    code: '01-02-B-01',
+    type: 'Picking',
+    maxVolume: 1.0,
+    maxWeight: 500,
+    maxPallets: 1,
+    status: 'Bloqueado Entrada',
+    sequence: 3,
+    abc: 'B',
+    equipment: 'Manual',
+  },
 ]
 
-export let MOCK_BALANCES: Balance[] = [
-  { id: 'bal1', addressId: 'a1', productId: 'p1', qty: 150, lot: 'L2309' },
-  { id: 'bal2', addressId: 'a3', productId: 'p3', qty: 500 },
-  { id: 'bal3', addressId: 'a5', productId: 'p4', qty: 120 }, // Pending putaway
+export const mockProducts = [
+  {
+    id: '1',
+    sku: 'SKU-1001',
+    description: 'Caixa Organizadora M',
+    type: 'Embalagem',
+    unit: 'UN',
+    barcode: '789100000001',
+    standardQty: 50,
+  },
+  {
+    id: '2',
+    sku: 'SKU-2044',
+    description: 'Monitor LED 24"',
+    type: 'Eletrônicos',
+    unit: 'UN',
+    barcode: '789100000002',
+    standardQty: 10,
+  },
+  {
+    id: '3',
+    sku: 'SKU-8890',
+    description: 'Cabo HDMI 2m',
+    type: 'Acessórios',
+    unit: 'UN',
+    barcode: '789100000003',
+    standardQty: 100,
+  },
+  {
+    id: '4',
+    sku: 'SKU-4402',
+    description: 'Fita Adesiva Transparente',
+    type: 'Insumo',
+    unit: 'RL',
+    barcode: '789100000004',
+    standardQty: 200,
+  },
 ]
 
-export const updateBalance = (newBalances: Balance[]) => {
-  MOCK_BALANCES = newBalances
-}
+export const mockActivities = [
+  {
+    id: '1',
+    action: 'Novo Endereço cadastrado',
+    target: '01-01-A-03 na Zona Z-01',
+    time: 'Há 10 min',
+  },
+  {
+    id: '2',
+    action: 'Produto atualizado',
+    target: 'SKU-2044 (Dimensões alteradas)',
+    time: 'Há 45 min',
+  },
+  { id: '3', action: 'Armazém bloqueado', target: 'ARM-SP-02 (Manutenção)', time: 'Há 2 horas' },
+  { id: '4', action: 'Nova Zona criada', target: 'Z-03 no Armazém ARM-SP-01', time: 'Ontem' },
+  { id: '5', action: 'Filial adicionada', target: 'FL03 - Logistics Matrix MG', time: 'Ontem' },
+]
+
+export const companies = mockCompanies.map((c) => ({
+  ...c,
+  branchCode: c.branch,
+  erpCode: c.erp,
+}))
+
+export const warehouses = mockWarehouses.map((w) => ({
+  ...w,
+  erpCode: w.erp,
+}))
+
+export const zones = mockZones.map((z) => ({
+  ...z,
+  supplySequence: z.sequence,
+  allocationRule: z.rule,
+}))
+
+export const addresses = mockAddresses.map((a) => ({
+  ...a,
+  lockStatus: a.status,
+  pickingSequence: a.sequence,
+  abcCurve: a.abc,
+}))
+
+export const products = mockProducts.map((p) => ({
+  ...p,
+  group: 'Geral',
+}))
